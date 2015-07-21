@@ -3,6 +3,12 @@ var config = require('../config');
 var request = require('request');
 var Twitter = require('twitter');
 var router = express.Router();
+var bodyParser = require('body-parser')
+
+var olarkService = require('../service/olark');
+var wufooService = require('../service/wufoo');
+
+var urlEncodedParser = bodyParser.urlencoded({extended: false});
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -60,6 +66,18 @@ router.get('/rss-feed', function(req, res, next) {
         	res.send(error);
         }
     });
+});
+
+router.post('/olark/chats', function(req, res, next){
+  var chat = req.body;
+  olarkService.processChat(chat);
+  res.send(200);
+});
+
+router.post('/wufoo/surveys', urlEncodedParser, function(req, res, next){
+  var survey = req.body;
+  wufooService.processSurvey(survey);
+  res.send(200);
 });
 
 module.exports = router;
