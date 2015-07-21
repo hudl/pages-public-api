@@ -48,7 +48,7 @@ function getTotalChatTime(chat){
 	var firstEvent = _.first(events);
 	var lastEvent = _.last(events);
 
-	return Number(firstEvent.timestamp) - Number(lastEvent.timestamp);
+	return Number(lastEvent.timestamp) - Number(firstEvent.timestamp);
 }
 
 module.exports = {

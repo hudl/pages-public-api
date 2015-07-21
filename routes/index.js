@@ -9,6 +9,7 @@ var olarkService = require('../service/olark');
 var wufooService = require('../service/wufoo');
 
 var urlEncodedParser = bodyParser.urlencoded({extended: false});
+var jsonParser = bodyParser.json();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -68,8 +69,8 @@ router.get('/rss-feed', function(req, res, next) {
     });
 });
 
-router.post('/olark/chats', function(req, res, next){
-  var chat = req.body;
+router.post('/olark/chats', jsonParser, function(req, res, next){
+  var chat = JSON.parse(req.body.data);
   olarkService.processChat(chat);
   res.send(200);
 });
