@@ -82,7 +82,7 @@ router.post('/wufoo/surveys', urlEncodedParser, function(req, res, next){
   res.send(200);
 });
 
-router.post('/zendesk/surveys', urlEncodedParser, function(req, res, next){
+router.post('/zendesk/tickets', urlEncodedParser, function(req, res, next){
   //var ticket = JSON.parse(req.body.message);
   var ticket = {
     group: 'Support',
