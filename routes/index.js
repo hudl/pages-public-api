@@ -7,6 +7,7 @@ var bodyParser = require('body-parser')
 
 var olarkService = require('../service/olark');
 var wufooService = require('../service/wufoo');
+var zendeskService = require('../service/zendesk');
 
 var urlEncodedParser = bodyParser.urlencoded({extended: false});
 var jsonParser = bodyParser.json();
@@ -78,6 +79,20 @@ router.post('/olark/chats', jsonParser, function(req, res, next){
 router.post('/wufoo/surveys', urlEncodedParser, function(req, res, next){
   var survey = req.body;
   wufooService.processSurvey(survey);
+  res.send(200);
+});
+
+router.post('/zendesk/surveys', urlEncodedParser, function(req, res, next){
+  //var ticket = JSON.parse(req.body.message);
+  var ticket = {
+    group: 'Support',
+    type: 'Mail',
+    assignee: 'Ryan Hotovy',
+    id: '1077706'
+  };
+  if ((ticket.group == 'Support' || ticket.group == 'Billing') && ticket.type == 'Mail'){
+    zendeskService.processTicket(ticket);
+  }
   res.send(200);
 });
 
