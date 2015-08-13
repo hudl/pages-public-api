@@ -3,6 +3,14 @@ var config = require('../config');
 var request = require('request');
 var Twitter = require('twitter');
 var router = express.Router();
+var bodyParser = require('body-parser');
+
+var olarkService = require('../service/olark');
+var wufooService = require('../service/wufoo');
+var zendeskService = require('../service/zendesk');
+
+var urlEncodedParser = bodyParser.urlencoded({extended: false});
+var jsonParser = bodyParser.json();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -60,6 +68,32 @@ router.get('/rss-feed', function(req, res, next) {
         	res.send(error);
         }
     });
+});
+
+router.post('/olark/chats', jsonParser, function(req, res, next){
+  var chat = JSON.parse(req.body.data);
+  olarkService.processChat(chat);
+  res.send(200);
+});
+
+router.post('/wufoo/surveys', urlEncodedParser, function(req, res, next){
+  var survey = req.body;
+  wufooService.processSurvey(survey);
+  res.send(200);
+});
+
+router.post('/zendesk/tickets', urlEncodedParser, function(req, res, next){
+  var ticket = JSON.parse(req.body.message);
+  /*var ticket = {
+    group: 'Support',
+    type: 'Mail',
+    assignee: 'Ryan Hotovy',
+    id: '1077706'
+  };*/
+  if (ticket.group == 'Support' && ticket.type == 'Mail'){
+    zendeskService.processTicket(ticket);
+  }
+  res.send(200);
 });
 
 module.exports = router;

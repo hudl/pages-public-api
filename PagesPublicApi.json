@@ -1,0 +1,19 @@
+{
+  "api.version": "v1",
+  "source":{
+    "name":"PagesPublicApi",
+    "category":"sumodevourolark",
+    "automaticDateParsing":true,
+    "multilineProcessingEnabled":true,
+    "useAutolineMatching":true,
+    "forceTimeZone":false,
+    "timeZone":"UTC",
+    "filters":[],
+    "cutoffTimestamp":0,
+    "encoding":"UTF-8",
+    "pathExpression":"/var/log/pages-public-api.log",
+    "blacklist":[],
+    "sourceType":"LocalFile",
+    "alive":true
+  }
+}
