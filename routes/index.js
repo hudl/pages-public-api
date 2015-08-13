@@ -3,7 +3,7 @@ var config = require('../config');
 var request = require('request');
 var Twitter = require('twitter');
 var router = express.Router();
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 
 var olarkService = require('../service/olark');
 var wufooService = require('../service/wufoo');
@@ -83,14 +83,14 @@ router.post('/wufoo/surveys', urlEncodedParser, function(req, res, next){
 });
 
 router.post('/zendesk/tickets', urlEncodedParser, function(req, res, next){
-  //var ticket = JSON.parse(req.body.message);
-  var ticket = {
+  var ticket = JSON.parse(req.body.message);
+  /*var ticket = {
     group: 'Support',
     type: 'Mail',
     assignee: 'Ryan Hotovy',
     id: '1077706'
-  };
-  if ((ticket.group == 'Support' || ticket.group == 'Billing') && ticket.type == 'Mail'){
+  };*/
+  if (ticket.group == 'Support' && ticket.type == 'Mail'){
     zendeskService.processTicket(ticket);
   }
   res.send(200);
